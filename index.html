@@ -11,37 +11,98 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-gradient-start: #667eea;
+            --bg-gradient-end: #764ba2;
+            --text-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --nav-bg: rgba(102, 126, 234, 0.9);
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-end: #16213e;
+            --text-color: #e0e0e0;
+            --card-bg: rgba(0, 0, 0, 0.3);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --nav-bg: rgba(26, 26, 46, 0.9);
+        }
+
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             font-family: "Microsoft YaHei", sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            transition: background 0.3s ease;
+        }
+
+        /* 导航栏 */
+        nav {
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 32px var(--shadow-color);
             text-align: center;
             max-width: 600px;
             width: 100%;
+            margin: 50px 20px;
         }
 
         h1 {
-            color: #ffffff;
+            color: var(--text-color);
             font-size: 2.5rem;
             margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 4px var(--shadow-color);
         }
 
         p {
-            color: #f0f0f0;
+            color: var(--text-color);
             font-size: 1.2rem;
             line-height: 1.6;
             margin-bottom: 30px;
@@ -51,12 +112,67 @@
             width: 100%;
             max-width: 300px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px var(--shadow-color);
             transition: transform 0.3s ease;
         }
 
         img:hover {
             transform: scale(1.05);
+        }
+
+        /* 回到顶部按钮 */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(102, 126, 234, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        #backToTop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #backToTop:hover {
+            background: rgba(102, 126, 234, 1);
+            transform: translateY(-5px);
+        }
+
+        /* 暗黑模式切换按钮 */
+        #themeToggle {
+            padding: 8px 15px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--text-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #themeToggle:hover {
+            background: var(--text-color);
+            color: var(--bg-gradient-start);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 15px;
+            }
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -65,15 +181,80 @@
             }
             .container {
                 padding: 25px;
+                margin: 30px 15px;
+            }
+            #backToTop {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                bottom: 20px;
+                right: 20px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <a href=" " class="logo">我的网站</a >
+            <div class="nav-links">
+                <a href="test.html">首页</a >
+                <a href="about.html">关于我</a >
+                <a href="projects.html">项目</a >
+                <a href="contact.html">联系我</a >
+            </div>
+            <button id="themeToggle">切换暗黑模式</button>
+        </div>
+    </nav>
+
     <div class="container">
         <h1>Hello, World!</h1>
-        <p>这是我用代码写出的网站</p>
-        <img src="https://github.com/orangenb666/orangenb666.github.io/blob/main/MYIMAGE.jpg?raw=true" alt="我的图片">
+        <p>这是我用代码写出的网站</p >
+        < img src="https://picsum.photos/300/300" alt="我的图片">
     </div>
+
+    <button id="backToTop">↑</button>
+
+    <script>
+        // 回到顶部功能
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 暗黑模式切换功能
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const body = document.body;
+
+        if (localStorage.getItem('theme') === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            themeToggleBtn.textContent = '切换浅色模式';
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (body.hasAttribute('data-theme')) {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeToggleBtn.textContent = '切换暗黑模式';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggleBtn.textContent = '切换浅色模式';
+            }
+        });
+    </script>
 </body>
 </html>
